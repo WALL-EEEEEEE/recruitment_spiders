@@ -5,7 +5,7 @@ class BossJobCategoriesSpider(scrapy.Spider):
     start_urls = [ 'https://www.zhipin.com/' ]
 
     def parse(self,response):
-        for jobcategory in response.xpath('//div[contains(@class,"sub-content")]//a'):
-            job_cname = jobcategory.xpath('text()').extract();
-            job_clink = jobcategory.xpath('@href').extract()
-            yield {"cname":job_cname, "clink":job_clink}
+        for jobcate in response.xpath('//div[contains(@class,"menu-sub")]//a'):
+                job_cname = jobcate.xpath('text()').extract();
+                job_clink = jobcate.xpath('@href').extract()
+                yield {"cname":job_cname, "clink":job_clink}

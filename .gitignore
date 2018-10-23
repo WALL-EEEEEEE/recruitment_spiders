@@ -1,2 +1,4 @@
 ScrapyRecruitment/ProxyRequest.py
-ScrapyRecruitment/spiders/data/
+*.pyc
+__pycache__
+*/__pycache__

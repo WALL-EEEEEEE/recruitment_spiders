@@ -13,10 +13,10 @@ class BossJobInfoSpider(scrapy.Spider):
     def start_requests(self):
         #load the categories list
         crequests = []
-        with jsonlines.open('./data/BossJobPages2.jl') as reader:
+        with open('./data/BossJobInfos2PageRetried.jl','r') as reader:
             for list_url in reader:
-                clink = list_url['page_url']
-                crequest = scrapy.FormRequest(clink)
+                list_url = list_url.strip('\n\r')
+                crequest = scrapy.FormRequest(list_url)
                 crequests.append(crequest)
         return crequests
 

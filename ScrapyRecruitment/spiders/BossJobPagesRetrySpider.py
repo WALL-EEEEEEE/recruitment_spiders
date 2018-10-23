@@ -9,30 +9,23 @@ import json
 import jsonlines
 
 class BossJobPagesSpider (Spider):
-    name = 'BossJobUrlSpider'
+    name = 'BossJobPagesRetrySpider'
     allow_domains = ['www.zhipin.com']
     baseurl = 'http://www.zhipin.com'
     job_count = 0;
     page_count = 0;
     pages = []
     def start_requests(self):
-        #load the categories list
+        #load retried page_entry
         crequests = []
-        categories = []
-        cities = []
+        retry_pages = []
+        with open('./data/retried.page_entry2') as RetryPageReader:
+            for page_entry in RetryPageReader:
+                retry_pages.append(page_entry.strip('\n'))
 
-        with jsonlines.open('./data/BossJobCategory.jl') as CategoryReader:
-            for cate in CategoryReader:
-                categories.append(cate)
-        with jsonlines.open('./data/BossCityList.jl') as CityReader:
-            for city in CityReader:
-                cities.append(city)
-
-        for cate in categories:
-            for city in cities:
-                clink = self.baseurl+'/c'+city['cityCode']+cate['clink'][0]
-                crequest = scrapy.FormRequest(clink,self.page_iterate)
-                crequests.append(crequest)
+        for page in retry_pages:
+            crequest = scrapy.FormRequest(page,self.page_iterate)
+            crequests.append(crequest)
         return crequests
 
     def page_iterate(self,response):
@@ -45,6 +38,7 @@ class BossJobPagesSpider (Spider):
         if not empty_page:
             self.page_count += 1;
             yield {'page_url':current_url.geturl()}
+        self.logger.info("Found "+str(self.page_count)+" pages");
         page_matcher = re.match('.*page=(\d+).*',current_url.query)
         current_page = 1 if not current_url.query or (page_matcher == None) else int(page_matcher.group(1))
 
