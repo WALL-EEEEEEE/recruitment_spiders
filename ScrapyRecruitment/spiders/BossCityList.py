@@ -1,17 +1,12 @@
 
 from scrapy import Spider
+import logging
 
 class BossCityList(Spider):
 
-    name = "BossCitiList"
+    name = "BossCityList"
     allowed_domains = [ "www.zhipin.com" ]
-    start_urls = [ 'https://www.zhipin.com/' ]
+    start_urls = [ 'https://www.zhipin.com/common/data/city.json' ]
 
     def parse(self,response):
-        cityLists = response.xpath('//div[contains(@class,"dorpdown-city")]/ul[ not(contains(@class, "show"))]/li')
-        for city in cityLists:
-            cityCode = city.xpath('@data-val').extract_first()
-            cityName = city.xpath('text()').extract_first()
-            yield {'cityCode':cityCode, 'cityName':cityName}
-
-
+        logging.info(response.text)

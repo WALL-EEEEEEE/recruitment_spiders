@@ -18,5 +18,6 @@ class ProxyMiddleware(object):
         self._proxy = ProxyRequest()
 
     def process_request(self,request,spider):
-        request.meta['proxy'] = self._proxy.get()
+        if 'enable_proxy' in request.meta and request.meta['enable_proxy'] == True:
+            request.meta['proxy'] = self._proxy.get()
 

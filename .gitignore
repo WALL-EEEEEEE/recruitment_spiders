@@ -3,3 +3,6 @@ ScrapyRecruitment/spiders/data/*
 *.pyc
 __pycache__
 */__pycache__
+scrapyd.conf
+twistd.pid
+data
