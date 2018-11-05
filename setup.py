@@ -15,7 +15,7 @@ setup(
         'scrapy',
         'requests',
         'scrapy-redis',
-        'fake_useragent'
-        ]
+        'fake-useragent'
+        ],
     entry_points = {'scrapy': ['settings = ScrapyRecruitment.settings']},
 )
