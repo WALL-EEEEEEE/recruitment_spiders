@@ -27,6 +27,7 @@ class RetryMiddleware(retry.RetryMiddleware):
         self.switched_proxy = self.proxy.get(True)
         self.switched_ua = self.ua.random
         request.meta['proxy'] = self.switched_proxy
+        request.meta['enable_proxy'] = False
         request.headers.setdefault(b'User-Agent',self.switched_ua)
 
 
@@ -44,7 +45,7 @@ class RetryMiddleware(retry.RetryMiddleware):
             retryreq.dont_filter = True
             retryreq.priority = request.priority + self.priority_adjust
             self.switch_ua_proxy(retryreq)
-            logger.debug("Retrying %(request)s (failed %(retries)d times): %(reason)s -- with proxy %(proxy)s and ua %(ua)s", {'request': request, 'retries': retries, 'reason': reason,'proxy': self.switched_proxy, 'ua': self.switched_ua},extra={'spider': spider})
+            logger.debug("Retrying %(request)s (failed %(retries)d times): %(reason)s ", {'request': request, 'retries': retries, 'reason': reason},extra={'spider': spider})
             if isinstance(reason, Exception):
                 reason = global_object_name(reason.__class__)
 

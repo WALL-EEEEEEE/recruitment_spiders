@@ -4,5 +4,6 @@ ScrapyRecruitment/spiders/data/*
 __pycache__
 */__pycache__
 scrapyd.conf
+settings.py
 twistd.pid
 data

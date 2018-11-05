@@ -5,6 +5,7 @@ The  proxy host format like: `http://host:port` or `http://username:password@hos
 
 import random
 from ScrapyRecruitment.ProxyRequest import ProxyRequest
+import logging
 
 class ProxyMiddleware(object):
     """Custom ProxyMiddleware."""
@@ -18,6 +19,5 @@ class ProxyMiddleware(object):
         self._proxy = ProxyRequest()
 
     def process_request(self,request,spider):
-        if 'enable_proxy' in request.meta and request.meta['enable_proxy'] == True:
+        if 'enable_proxy' not in request.meta or request.meta['enable_proxy'] == True:
             request.meta['proxy'] = self._proxy.get()
-
